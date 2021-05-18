@@ -3,6 +3,9 @@ package com.lesstif.swaggerdemo.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +13,7 @@ import com.lesstif.swaggerdemo.models.Student;
 
 @RestController
 public class Swagger2DemoRestController {
+    private Logger logger = LoggerFactory.getLogger(Swagger2DemoRestController.class);
 
     List<Student> students = new ArrayList<Student>();
     {
@@ -31,10 +35,13 @@ public class Swagger2DemoRestController {
 
     @RequestMapping(value = "/getStudentByCountry/{country}")
     public List<Student> getStudentByCountry(@PathVariable(value = "country") String country) {
-        System.out.println("Searching Student in country : " + country);
+        logger.info("Searching Student in country : " + country);
+
         List<Student> studentsByCountry = students.stream().filter(x -> x.getCountry().equalsIgnoreCase(country))
                 .collect(Collectors.toList());
-        System.out.println(studentsByCountry);
+
+        logger.info(studentsByCountry.toString());
+
         return studentsByCountry;
     }
 
